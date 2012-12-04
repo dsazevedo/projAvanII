@@ -1,5 +1,6 @@
-Projeto feito na disciplina Projeto Avançado de Software II
+<h1>Aplicação feita na linguagem NCL para Disciplina Projeto Avançado de Software II
 
-Aluno: Diego Sousa de Azevedo
-Matrícula: 80811182
+<b>Aluno: Diego Sousa de Azevedo
+
+<b>Matrícula: 80811182
 
