@@ -1,72 +1,76 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<ncl id="part1" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
+<ncl id="parte1" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
 	<head>
 		<regionBase>
-			<region id="rgTV">
-				<region id="rgTVTelaInteira" />
-				<region id="rgBotao" right="5%" top="5%" width="200" height="230" zIndex="3" />
-				<region id="rgTemp" right="5%" top="5%" width="200" height="230" zIndex="3" />
-			</region>
+			<region id="rVideoPrincipal" width="100%" height="100%" zIndex="1"/>
+			<region id="rIconeInteratividade" right="5%" top="1%" width="200" height="230" zIndex="2"/>
+			<region id="rTempGRU" right="1%" top="10%" width="200" height="230" zIndex="2"/>
+			<region id="rTempPOA" right="1%" top="10%" width="200" height="230" zIndex="2"/>
+			<region id="rTempJPA" right="1%" top="10%" width="200" height="230" zIndex="2"/>
 		</regionBase>
-
+		
 		<descriptorBase>
-			<descriptor id="dTVtelaInteira" region="rgTVTelaInteira" />
-			<descriptor id="dBotao" region="rgBotao">
-				<descriptorParam name="transparency" value="10%" />
-			</descriptor>
-			<descriptor id="dTemp" region="rgTemp" explicitDur="5s">
-				<descriptorParam name="fontSize" value="40" />
-			</descriptor>
+			<descriptor id="dVideoPrincipal" region="rVideoPrincipal"/>			
+			
+			<descriptor id="dIconeInteratividade" region="rIconeInteratividade" explicitDur="5s"/>
+															
+			<descriptor id="dTempGRU" region="rTempGRU" explicitDur="10s">
+					<descriptorParam name="fontSize" value="45" />	
+			</descriptor>				
+			<descriptor id="dTempPOA" region="rTempPOA" explicitDur="15s">
+					<descriptorParam name="fontSize" value="45" />				
+			</descriptor>							
+			<descriptor id="dTempJPA" region="rTempJPA" explicitDur="20s">
+					<descriptorParam name="fontSize" value="45" />				
+			</descriptor>			
 		</descriptorBase>
 		
 		<connectorBase>
-			<importBase alias="connectors" documentURI="../ConnectorBase.ncl"/>
-		</connectorBase>
-
+			<causalConnector id="onBeginStart_vDelay">
+				<connectorParam name="vDelay"/>
+				<simpleCondition role="onBegin"/>
+				<simpleAction role="start" delay="$vDelay" max="unbounded" qualifier="par"/>
+			</causalConnector>
+			<causalConnector id="onEndStart">
+				<simpleCondition role="onEnd"/>
+				<simpleAction role="start"/>
+			</causalConnector>
+		</connectorBase>		
 	</head>
-
 	<body>
-		<port id="pVideoAbertura" component="videoAbertura" />
-			
-		<media id="videoAbertura" src="../media/480-cnn.mp4" descriptor="dTVtelaInteira" />
-		<media id="info" src="../media/interactive.png" descriptor="dBotao"/>
-		<media id="gru" src="../media/gru.txt" descriptor="dTemp"/>
-		<media id="poa" src="../media/poa.txt" descriptor="dTemp"/>
-		<media id="jpa" src="../media/jpa.txt" descriptor="dTemp"/>
-			
-		<link xconnector="connectors#onBeginStartNDelayStopN">
-			<linkParam name="delay" value="10s"/>
-			<bind role="onBegin" component="videoAbertura" />
-			<bind role="start" component="info" />
-			<bind role="stop" component="info" />
-			
+		
+		<port id="pVideoPrincipal" component="mVideoPrincipal"/>
+		
+		<media id="mVideoPrincipal" src="../media/480-cnn.mp4" descriptor="dVideoPrincipal"/>
+		<media id="mIconeInteratividade" src="../media/interactive.png" descriptor="dIconeInteratividade"/>
+		<media id="mTempGRU" src="../media/gru.txt" descriptor="dTempGRU"/>
+		<media id="mTempPOA" src="../media/poa.txt" descriptor="dTempPOA"/>
+		<media id="mTempJPA" src="../media/jpa.txt" descriptor="dTempJPA"/>
+		
+		<link id="lVideoPrincipal" xconnector="onBeginStart_vDelay">
+			<linkParam name="vDelay" value="5s"/>
+			<bind role="onBegin" component="mVideoPrincipal"/>
+			<bind role="start" component="mIconeInteratividade"/>
 		</link>
 		
-		<link xconnector="connectors#onEndStart">
-			<bind role="stop" component="info" />
-			<bind role="onEnd" component="info" />
-			<bind role="start" component="gru" />
-		</link>
-		<link xconnector="connectors#onEndStopNStartN">
-			<bind role="start" component="poa" />
-			<bind role="onEnd" component="gru" />
-			<bind role="stop" component="gru" />
-		</link>
-		<link xconnector="connectors#onEndStopNStartN">
-			<bind role="start" component="jpa" />
-			<bind role="onEnd" component="poa" />
-			<bind role="stop" component="poa" />
-		</link>
-		<link xconnector="connectors#onEndStart">
-			<bind role="start" component="info" />
-			<bind role="onEnd" component="jpa" />
-			<bind role="stop" component="jpa" />
-		</link>
-	
-		<link id="lVideoPrincTermina" xconnector="connectors#onEndAbort">
-			<bind role="abort" component="info" />
-			<bind role="onEnd" component="videoAbertura" />
+		<link id="lGRU" xconnector="onEndStart">
+			<bind role="onEnd" component="mIconeInteratividade"/>
+			<bind role="start" component="mTempGRU"/>
 		</link>
 		
+		<link id="lPOA" xconnector="onEndStart">
+			<bind role="onEnd" component="mTempGRU"/>
+			<bind role="start" component="mTempPOA"/>
+		</link>
+		
+		<link id="lJPA" xconnector="onEndStart">
+			<bind role="onEnd" component="mTempPOA"/>
+			<bind role="start" component="mTempJPA"/>
+		</link>
+		
+		<link id="lInteracaoBis" xconnector="onEndStart">
+			<bind role="onEnd" component="mTempJPA"/>
+			<bind role="start" component="mIconeInteratividade"/>
+		</link>
 	</body>
 </ncl>
