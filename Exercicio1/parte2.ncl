@@ -1,152 +1,147 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<ncl id="part2" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
+<ncl id="parte2" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
 	<head>
 		<regionBase>
-			<region id="rgTV">
-				<region id="rgTVTelaInteira" />
-				<region id="rgBotao" right="5%" top="5%" width="200" height="230" zIndex="3" />
-				<region id="rgTemp" right="5%" top="5%" width="200" height="230" zIndex="3" />
-				<region id="rgMenu" right="5%" top="5%" width="200" height="230" zIndex="5" />
-			</region>
+			<region id="rVideoPrincipal" height="100%" width="100%"/>
+			<region id="rIconeInteratividade" right="5%" top="1%" width="200" height="230" zIndex="2"/>
+			<region id="rMenu" right="5%" top="1%" width="200" height="230" zIndex="2"/>
+			<region id="rTempGRU" right="1%" top="10%" width="200" height="230" zIndex="2"/>
+			<region id="rTempPOA" right="1%" top="10%" width="200" height="230" zIndex="2"/>
+			<region id="rTempJPA" right="1%" top="10%" width="200" height="230" zIndex="2"/>					
 		</regionBase>
-
+				
 		<descriptorBase>
-			<descriptor id="dTVtelaInteira" region="rgTVTelaInteira" />
-			<descriptor id="dBotao" region="rgBotao">
-				<descriptorParam name="transparency" value="10%" />
-			</descriptor>
-			<descriptor id="dTemp" region="rgTemp">
-				<descriptorParam name="fontSize" value="40" />
-			</descriptor>
-			<descriptor id="dMenu" region="rgMenu">
-				<descriptorParam name="transparency" value="15%"/>
-			</descriptor>
-			<descriptor id="dOpt1">
-				
-			</descriptor>
-			<descriptor id="dOpt2">
-				
-			</descriptor>
-			<descriptor id="dOpt3">
-				
+			<descriptor id="dVideoPrincipal" region="rVideoPrincipal"/>
+			<descriptor id="dIconeInteratividade" region="rIconeInteratividade"/>
+			<descriptor id="dMenu" region="rMenu"/>
+			<descriptor id="dTemGRU" region="rTempGRU">
+				<descriptorParam name="fontSize" value="45"/>				
+			</descriptor>				
+			<descriptor id="dTemPOA" region="rTempPOA">
+				<descriptorParam name="fontSize" value="45"/>				
+			</descriptor>				
+			<descriptor id="dTemJPA" region="rTempJPA">
+				<descriptorParam name="fontSize" value="45"/>				
 			</descriptor>
 		</descriptorBase>
 		
 		<connectorBase>
-			<importBase alias="connectors" documentURI="../ConnectorBase.ncl"/>
-		</connectorBase>
-
-	</head>
-
-	<body>
-		<port id="pVideoAbertura" component="videoAbertura" />
+			<causalConnector id="onKeySelectionStartNStopN">
+				<connectorParam name="keyCode"/>
+				<simpleCondition role="onSelection" key="$keyCode"/>
+				<compoundAction operator="seq">
+					<simpleAction role="start" max="unbounded" qualifier="par"/>
+					<simpleAction role="stop" max="unbounded" qualifier="par"/>
+				</compoundAction>
+			</causalConnector>
 			
-		<media id="videoAbertura" src="../media/480-cnn.mp4" descriptor="dTVtelaInteira" />
-		<media id="info" src="../media/interactive.png" descriptor="dBotao"/>
-		<media id="menu" src="../media/menu.png" descriptor="dMenu" />
-		<media id="gru" src="../media/gru.txt" descriptor="dTemp"/>
-		<media id="poa" src="../media/poa.txt" descriptor="dTemp"/>
-		<media id="jpa" src="../media/jpa.txt" descriptor="dTemp"/>
+			<causalConnector id="onBeginStart">
+				<simpleCondition role="onBegin"/>
+				<simpleAction role="start"/>
+			</causalConnector>
+			
+			<causalConnector id="onEndStop">
+				<simpleCondition role="onEnd"/>
+				<simpleAction role="stop"/>
+			</causalConnector>
+		</connectorBase>
+	</head>
+	<body>
+		<port id="pVideoPrincipal" component="mVideoPrincipal"/>
 		
-		<link xconnector="connectors#onBeginStart">
-			<bind role="onBegin" component="videoAbertura" />
-			<bind role="start" component="info" />
-		</link>
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="stop" component="info" />
-			<bind role="onSelection" component="info">
+		<media id="mVideoPrincipal" src="../media/480-cnn.mp4" descriptor="dVideoPrincipal"/>
+		<media id="mMenu" src="../media/menu.png" descriptor="dMenu"/>
+		<media id="mInteratividade" src="../media/interactive.png" descriptor="dIconeInteratividade"/>
+		<media id="mTempGRU" src="../media/gru.txt" descriptor="dTemGRU"/>
+		<media id="mTempPOA" src="../media/poa.txt" descriptor="dTemPOA"/>
+		<media id="mTempJPA" src="../media/jpa.txt" descriptor="dTemJPA"/>		
+		
+		<!-- Inicia o Video Principal e junto o icone de interatividade-->		
+		<link xconnector="onBeginStart">
+			<bind role="onBegin" component="mVideoPrincipal"/>
+			<bind role="start" component="mInteratividade"/>
+		</link>		
+		<!-- Retira o icone de interação e inicia o menu -->
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="stop" component="mInteratividade"/>
+			<bind role="onSelection" component="mInteratividade">
 				<bindParam name="keyCode" value="BLUE"/>
 			</bind>
-			<bind role="start" component="menu" />
-		</link>
-		
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="menu">
+			<bind role="start" component="mMenu"/>
+		</link>				
+		<!-- Retira o menu e inicia o icone de interação-->
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mMenu">
 				<bindParam name="keyCode" value="RED"/>
 			</bind>
-			<bind role="start" component="info" />
-			<bind role="stop" component="menu" />
+			<bind role="start" component="mInteratividade"/>
+			<bind role="stop" component="mMenu"/>
 		</link>
-		
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="menu">
+		<!-- Ação para escolha da temperatura-->
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mMenu">
 				<bindParam name="keyCode" value="1"/>
 			</bind>
-			<bind role="start" component="gru" />
-			<bind role="stop" component="menu" />
+			<bind role="start" component="mTempGRU"/>
+			<bind role="stop" component="mMenu"/>
 		</link>
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="menu">
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mMenu">
 				<bindParam name="keyCode" value="2"/>
 			</bind>
-			<bind role="start" component="poa" />
-			<bind role="stop" component="menu" />
+			<bind role="start" component="mTempPOA"/>
+			<bind role="stop" component="mMenu"/>
 		</link>
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="menu">
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mMenu">
 				<bindParam name="keyCode" value="3"/>
 			</bind>
-			<bind role="start" component="jpa" />
-			<bind role="stop" component="menu" />
-		</link>
-		
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="gru">
+			<bind role="start" component="mTempJPA"/>
+			<bind role="stop" component="mMenu"/>
+		</link>				
+		<!-- Apaga a temperatura e retorna para o menu-->						
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mTempGRU">
 				<bindParam name="keyCode" value="GREEN"/>
 			</bind>
-			<bind role="stop" component="gru" />
-			<bind role="start" component="menu" />
+			<bind role="stop" component="mTempGRU"/>
+			<bind role="start" component="mMenu"/>
 		</link>
-		
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="poa">
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mTempPOA">
 				<bindParam name="keyCode" value="GREEN"/>
 			</bind>
-			<bind role="stop" component="poa" />
-			<bind role="start" component="menu" />
+			<bind role="stop" component="mTempPOA"/>
+			<bind role="start" component="mMenu"/>
 		</link>
-		
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="jpa">
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mTempJPA">
 				<bindParam name="keyCode" value="GREEN"/>
 			</bind>
-			<bind role="stop" component="jpa" />
-			<bind role="start" component="menu" />
+			<bind role="stop" component="mTempJPA"/>
+			<bind role="start" component="mMenu"/>
 		</link>
-		
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="gru">
+		<!-- Apaga a temperatura e retorna para o icone de interação-->
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mTempGRU">
 				<bindParam name="keyCode" value="RED"/>
 			</bind>
-			<bind role="stop" component="gru" />
-			<bind role="start" component="info" />
+			<bind role="stop" component="mTempGRU"/>
+			<bind role="start" component="mInteratividade"/>
 		</link>
-		
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="poa">
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mTempPOA">
 				<bindParam name="keyCode" value="RED"/>
 			</bind>
-			<bind role="stop" component="poa" />
-			<bind role="start" component="info" />
+			<bind role="stop" component="mTempPOA"/>
+			<bind role="start" component="mInteratividade"/>
 		</link>
-		
-		<link xconnector="connectors#onKeySelectionStartNStopN">
-			<bind role="onSelection" component="jpa">
+		<link xconnector="onKeySelectionStartNStopN">
+			<bind role="onSelection" component="mTempJPA">
 				<bindParam name="keyCode" value="RED"/>
 			</bind>
-			<bind role="stop" component="jpa" />
-			<bind role="start" component="info" />
+			<bind role="stop" component="mTempJPA"/>
+			<bind role="start" component="mInteratividade"/>
 		</link>
-	
-		<link id="lVideoPrincTermina" xconnector="connectors#onEndAbortN">
-			<bind role="abort" component="info" />
-			<bind role="abort" component="menu" />
-			<bind role="abort" component="gru" />
-			<bind role="abort" component="jpa" />
-			<bind role="abort" component="poa" />
-			<bind role="onEnd" component="videoAbertura" />
-		</link>
-		
-
 	</body>
 </ncl>
