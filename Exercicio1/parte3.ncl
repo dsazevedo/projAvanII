@@ -8,6 +8,7 @@
 			<region id="rMenu" right="5%" top="1%" width="200" height="230" zIndex="2"/>
 			<region id="rTemp" right="1%" top="10%" width="200" height="230" zIndex="2"/>
 		</regionBase>
+		
 		<descriptorBase>
 			<descriptor id="dVideoPrincipal" region="rVideoPrincipal"/>
 			<descriptor id="dIconeInteratividade" region="rIconeInteratividade"/>
@@ -16,18 +17,21 @@
 				<descriptorParam name="fontSize" value="45"/>
 			</descriptor>
 		</descriptorBase>
+		
 		<connectorBase>
 			<importBase alias="connectors" documentURI="../ConnectorBase.ncl"/>
 		</connectorBase>
 	</head>
 	<body>
 		<port id="pVideoPrincipal" component="mVideoPrincipal"/>
+		
 		<media id="mVideoPrincipal" src="../media/480-cnn.mp4" descriptor="dVideoPrincipal"/>
 		<media id="mMenu" src="../media/menu.png" descriptor="dMenu"/>
 		<media id="mInteratividade" src="../media/interactive.png" descriptor="dIconeInteratividade"/>
 		<media id="mTempGRU" src="../media/gru.txt" descriptor="dtemp"/>
 		<media id="mTempPOA" src="../media/poa.txt" descriptor="dtemp"/>
 		<media id="mTempJPA" src="../media/jpa.txt" descriptor="dtemp"/>
+		
 		<!--Starts Movie and icon of interactive -->
 		<link xconnector="connectors#onBeginStart">
 			<bind role="onBegin" component="mVideoPrincipal"/>
@@ -95,6 +99,14 @@
 				<bindParam name="keyCode" value="CURSOR_LEFT"/>
 			</bind>
 			<bind role="start" component="mTempJPA"/>
+		</link>
+		<link xconnector="connectors#onEndAbort">
+			<bind role="onEnd" component="mVideoPrincipal"/>
+			<bind role="abort" component="mMenu"/>
+			<bind role="abort" component="mInteratividade"/>
+			<bind role="abort" component="mTempGRU"/>
+			<bind role="abort" component="mTempPOA"/>
+			<bind role="abort" component="mTempJPA"/>
 		</link>
 	</body>
 </ncl>

@@ -39,11 +39,11 @@
 			<causalConnector id="onBeginStart">
 				<simpleCondition role="onBegin"/>
 				<simpleAction role="start"/>
-			</causalConnector>
+			</causalConnector>						
 			
-			<causalConnector id="onEndStop">
+			<causalConnector id="onEndAbort">
 				<simpleCondition role="onEnd"/>
-				<simpleAction role="stop"/>
+				<simpleAction role="abort" max="unbounded"/>
 			</causalConnector>
 		</connectorBase>
 	</head>
@@ -143,6 +143,14 @@
 			</bind>
 			<bind role="stop" component="mTempJPA"/>
 			<bind role="start" component="mInteratividade"/>
+		</link>
+		<link xconnector="onEndAbort">
+			<bind role="onEnd" component="mVideoPrincipal"/>
+			<bind role="abort" component="mMenu"/>
+			<bind role="abort" component="mInteratividade"/>
+			<bind role="abort" component="mTempGRU"/>
+			<bind role="abort" component="mTempPOA"/>
+			<bind role="abort" component="mTempJPA"/>
 		</link>
 	</body>
 </ncl>
