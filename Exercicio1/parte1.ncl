@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <ncl id="parte1" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
+	<!--Author: Diego Sousa - diego@diegosousa.com-->
 	<head>
 		<regionBase>
 			<!-- Obs: É Possivel criar apenas uma region para ser usada por
@@ -78,7 +79,7 @@
 			<bind role="onEnd" component="mTempJPA"/>			
 			<bind role="start" component="mIconeInteratividadeTwo"/>
 		</link>				
-		<link id="lFim" xconnector="onEndAbort">
+		<link id="lTheEnd" xconnector="onEndAbort">
 			<bind role="onEnd" component="mVideoPrincipal"/>
 			<bind role="abort" component="mIconeInteratividadeTwo"/>
 		</link>

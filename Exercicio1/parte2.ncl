@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <ncl id="parte2" xmlns="http://www.ncl.org.br/NCL3.0/EDTVProfile">
+	<!--Author: Diego Sousa - diego@diegosousa.com-->
 	<head>
 		<regionBase>
 			<region id="rVideoPrincipal" height="100%" width="100%"/>
