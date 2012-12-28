@@ -1,11 +1,11 @@
--- CONFIGURAÇÕES
+-- CONFIGURAï¿½ï¿½ES
 fontFace = 'vera'
-fontSize = 24
-fontColor = "yellow"
+fontSize = 40
+fontColor = "white"
 bgcolor = 'black'
 
 -- EVENTOS
-PROPRIEDADE_NOME = 'texto'
+PROPRIEDADE_NOME = 'textoGRU'
 
 function handler(e)
 

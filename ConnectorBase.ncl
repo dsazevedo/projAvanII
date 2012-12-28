@@ -41,7 +41,7 @@
 			 		-->
 			<causalConnector id="onBeginStart">
 				<simpleCondition role="onBegin"/>
-				<simpleAction role="start"/>
+				<simpleAction role="start" max="unbounded"/>
 			</causalConnector>
 			
 			<!--@doc Ativação:
@@ -137,7 +137,7 @@
 			 		-->
 			<causalConnector id="onEndAbort">
 				<simpleCondition role="onEnd"/>
-				<simpleAction role="abort"/>
+				<simpleAction role="abort" max="unbounded"/>
 			</causalConnector>
 			
 			<!--@doc Ativação:
@@ -1061,7 +1061,41 @@
 				<connectorParam name="var"/>
 				<simpleCondition role="onSelection"/>
 				<compoundAction operator="seq">
+					<simpleAction role="stop" max="unbounded" qualifier="par"/>					
+					<simpleAction role="set" value="$var" max="unbounded" qualifier="par"/>
+				</compoundAction>
+			</causalConnector>															
+						
+			<causalConnector id="onSelectionOnEndAttributionStopNSetN">
+				<connectorParam name="var"/>
+				<connectorParam name="keyCode"/>
+				<connectorParam name="vState"/>
+				<compoundCondition operator="and">					
+					<simpleCondition role="onSelection" key="$keyCode"/>
+					<simpleCondition role="onEndAttribution" max="unbounded"/>
+					<assessmentStatement comparator="eq">
+						<attributeAssessment role="attNodeTest" eventType="presentation" attributeType="state"/>
+						<valueAssessment value="$vState"/>
+					</assessmentStatement>	
+				</compoundCondition>				
+				<compoundAction operator="par">
+					<simpleAction role="stop" max="unbounded"/>					
+					<simpleAction role="set" value="$var" max="unbounded"/>
+				</compoundAction>
+			</causalConnector>
+			
+			<causalConnector id="onEndAttributionNOnSet">
+				<connectorParam name="var"/>				
+				<simpleCondition role="onEndAttribution" max="unbounded"/>									
+					<simpleAction role="set" value="$var" max="unbounded" qualifier="par"/>				
+			</causalConnector>				
+									
+			<causalConnector id="onSelectionStopNStartNSetN">
+				<connectorParam name="var"/>
+				<simpleCondition role="onSelection"/>
+				<compoundAction operator="seq">
 					<simpleAction role="stop" max="unbounded" qualifier="par"/>
+					<simpleAction role="start" max="unbounded" qualifier="par"/>
 					<simpleAction role="set" value="$var" max="unbounded" qualifier="par"/>
 				</compoundAction>
 			</causalConnector>
@@ -1207,6 +1241,17 @@
 				<simpleCondition role="onSelection" key="$keyCode"/>
 				<compoundAction operator="seq">
 					<simpleAction role="start" max="unbounded" qualifier="par"/>
+					<simpleAction role="stop" max="unbounded" qualifier="par"/>
+				</compoundAction>
+			</causalConnector>
+			
+			
+			<causalConnector id="onKeySelectionSetNStopN">
+				<connectorParam name="keyCode"/>
+				<connectorParam name="var"/>
+				<simpleCondition role="onSelection" key="$keyCode"/>
+				<compoundAction operator="seq">
+					<simpleAction role="set" value="$var" max="unbounded" qualifier="par"/>
 					<simpleAction role="stop" max="unbounded" qualifier="par"/>
 				</compoundAction>
 			</causalConnector>
@@ -1598,7 +1643,7 @@
 			                Inicia N nós de contexto, de alternativa ou de mídia 
 			                (ou uma âncora de um nó de mídia)
 			 		-->
-			<causalConnector id="onEndAttNodeTestStartN">
+			<causalConnector id="onEndNodeTestStartN">
 				<connectorParam name="value"/>
 				<compoundCondition operator="and">
 					<simpleCondition role="onEnd"/>
@@ -1609,6 +1654,19 @@
 				</compoundCondition>
 				<simpleAction role="start" max="unbounded" qualifier="par"/>
 			</causalConnector>
+						
+			<causalConnector id="onEndAttNodeTestStartN">
+				<connectorParam name="value"/>
+				<compoundCondition operator="and">
+					<simpleCondition role="onEndAttribution"/>
+					<assessmentStatement comparator="eq">
+						<attributeAssessment role="attNodeTest" eventType="attribution" attributeType="nodeProperty"/>
+						<valueAssessment value="$value"/>
+					</assessmentStatement>
+				</compoundCondition>
+				<simpleAction role="start" max="unbounded" qualifier="par"/>				
+			</causalConnector>
+			
 			<!--@doc Ativação:
 			                Término de um nó de contexto, de alternativa ou de 
 			                mídia (ou uma âncora de um nó de mídia) e o valor

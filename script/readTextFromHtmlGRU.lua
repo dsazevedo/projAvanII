@@ -3,12 +3,12 @@ local http = require 'http'
 
 PROPRIEDADE_NOME = 'gru'
 
-local URL = "https://dl.dropbox.com/s/ylm43hs9hdyp17v/gru.txt?dl=1"
+local URL = "https://dl.dropbox.com/s/k71k8rmp2hd2r86/TempSun.txt?dl=1"
 
 function handler (e)
 
 	if (e.class == 'ncl' and e.type == 'presentation' and e.action=='start') then
-		print('imagem1 iniciada')
+		print('Image Start')
 		readTextFromHtml(URL)
 	end
 
@@ -16,18 +16,18 @@ end
 
 
 function readTextFromHtml(url)
-	print("<><> Acessando:", url) io.flush()
+	print("Accessing:", url) io.flush()
 
 	http.request(url, display)
 end
 
 
---funcao callback
---header: cabecalho da resposta do http
---body: corpo da resposta (neste caso, texto)
+--Function callback
+--header: Response http header
+--body: The response body (in this case, text)
 function display(header, body)
 
-	print("<><> valor lido:", body) io.flush()
+	print("Value read:", body) io.flush()
 
 	geraEventoDeAtriuicao(PROPRIEDADE_NOME, body)
 
@@ -41,7 +41,7 @@ function geraEventoDeAtriuicao(nomePropriedade, valor)
 			type     = 'attribution',
 			action   = 'start',
 			name	 = nomePropriedade,
-			value    = valor,
+			value    = tonumber(valor),
 		}
 
 		event.post(evt) -- evento de inicio da atribuicao
