@@ -44,22 +44,22 @@
 		<media id="mCityPOA" src="../media/NamePoa.txt" descriptor="dCity"/>
 		<media id="mCelsius" src="../media/Celsius.txt" descriptor="dCelsius"/>		
 		
-		<media id="readTextFromHtmlGRU" src="../script/readTextFromHtmlGRU.lua">
+		<media id="readTextFromHtmlGRU" src="../scripts/readTextFromHtmlGRU.lua">
 			<property name="gru"/>
 		</media>
-		<media id="readTextFromHtmlJPA" src="../script/readTextFromHtmlJPA.lua">
+		<media id="readTextFromHtmlJPA" src="../scripts/readTextFromHtmlJPA.lua">
 			<property name="jpa"/>
 		</media>
-		<media id="readTextFromHtmlPOA" src="../script/readTextFromHtmlPOA.lua">
+		<media id="readTextFromHtmlPOA" src="../scripts/readTextFromHtmlPOA.lua">
 			<property name="poa"/>
 		</media>
-		<media id="showTempGRU" src="../script/show-text-GRU.lua" descriptor="dtemp">
+		<media id="showTempGRU" src="../scripts/show-text-GRU.lua" descriptor="dtemp">
 			<property name="textoGRU"/>
 		</media>
-		<media id="showTempJPA" src="../script/show-text-JPA.lua" descriptor="dtemp">
+		<media id="showTempJPA" src="../scripts/show-text-JPA.lua" descriptor="dtemp">
 			<property name="textoJPA"/>
 		</media>
-		<media id="showTempPOA" src="../script/show-text-POA.lua" descriptor="dtemp">
+		<media id="showTempPOA" src="../scripts/show-text-POA.lua" descriptor="dtemp">
 			<property name="textoPOA"/>
 		</media>
 		
