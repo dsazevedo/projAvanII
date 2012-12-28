@@ -51,11 +51,11 @@
 	<body>
 		<port id="pVideoPrincipal" component="mVideoPrincipal"/>
 		
-		<media id="mVideoPrincipal" src="../media/480-cnn.mp4" descriptor="dVideoPrincipal"/>
+		<media id="mVideoPrincipal" src="../media/Movie.mp4" descriptor="dVideoPrincipal"/>
 		<media id="mIconeInteratividade" src="../media/interactive.png" descriptor="dIconeInteratividade"/>		
-		<media id="mTempGRU" src="../media/gru.txt" descriptor="dTempGRU"/>
-		<media id="mTempPOA" src="../media/poa.txt" descriptor="dTempPOA"/>
-		<media id="mTempJPA" src="../media/jpa.txt" descriptor="dTempJPA"/>
+		<media id="mTempGRU" src="../media/TempGRU.txt" descriptor="dTempGRU"/>
+		<media id="mTempPOA" src="../media/TempPOA.txt" descriptor="dTempPOA"/>
+		<media id="mTempJPA" src="../media/TempJPA.txt" descriptor="dTempJPA"/>
 		
 		<link id="lVideoPrincipal" xconnector="onBeginStart_vDelay">
 			<linkParam name="vDelay" value="5s"/>

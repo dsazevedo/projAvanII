@@ -25,12 +25,12 @@
 	<body>
 		<port id="pVideoPrincipal" component="mVideoPrincipal"/>
 		
-		<media id="mVideoPrincipal" src="../media/480-cnn.mp4" descriptor="dVideoPrincipal"/>
+		<media id="mVideoPrincipal" src="../media/Movie.mp4" descriptor="dVideoPrincipal"/>
 		<media id="mMenu" src="../media/menu.png" descriptor="dMenu"/>
 		<media id="mInteratividade" src="../media/interactive.png" descriptor="dIconeInteratividade"/>
-		<media id="mTempGRU" src="../media/gru.txt" descriptor="dtemp"/>
-		<media id="mTempPOA" src="../media/poa.txt" descriptor="dtemp"/>
-		<media id="mTempJPA" src="../media/jpa.txt" descriptor="dtemp"/>
+		<media id="mTempGRU" src="../media/TempGRU.txt" descriptor="dtemp"/>
+		<media id="mTempPOA" src="../media/TempPOA.txt" descriptor="dtemp"/>
+		<media id="mTempJPA" src="../media/TempJPA.txt" descriptor="dtemp"/>
 		
 		<!--Starts Movie and icon of interactive -->
 		<link xconnector="connectors#onBeginStart">
