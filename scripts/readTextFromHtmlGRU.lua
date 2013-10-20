@@ -3,7 +3,7 @@ local http = require 'http'
 
 PROPRIEDADE_NOME = 'gru'
 
-local URL = "https://dl.dropbox.com/s/k71k8rmp2hd2r86/TempSun.txt?dl=1"
+local URL = "https://dl.dropboxusercontent.com/u/9338682/app/github_com_DiegoSousa_projAvanII/TempSun.txt"
 
 function handler (e)
 

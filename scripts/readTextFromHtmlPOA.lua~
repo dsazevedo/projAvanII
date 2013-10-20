@@ -3,7 +3,7 @@ local http = require 'http'
 
 PROPRIEDADE_NOME = 'poa'
 
-local URL = "https://dl.dropboxusercontent.com/u/9338682/app/github_com_DiegoSousa_projAvanII/TempSnow.txt"
+local URL = "https://dl.dropbox.com/s/qmh60vmorl2mn36/TempSnow.txt?dl=1"
 
 function handler (e)
 

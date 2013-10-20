@@ -3,7 +3,7 @@ local http = require 'http'
 
 PROPRIEDADE_NOME = 'jpa'
 
-local URL = "https://dl.dropbox.com/s/0gn2ysrw4zgqp9u/TempCloud.txt?dl=1"
+local URL = "https://dl.dropboxusercontent.com/u/9338682/app/github_com_DiegoSousa_projAvanII/TempCloud.txt"
 
 function handler (e)
 

@@ -1,14 +1,14 @@
 local util = require 'util'
 local http = require 'http'
 
-PROPRIEDADE_NOME = 'poa'
+PROPRIEDADE_NOME = 'gru'
 
-local URL = "https://dl.dropboxusercontent.com/u/9338682/app/github_com_DiegoSousa_projAvanII/TempSnow.txt"
+local URL = "https://dl.dropbox.com/s/k71k8rmp2hd2r86/TempSun.txt?dl=1"
 
 function handler (e)
 
 	if (e.class == 'ncl' and e.type == 'presentation' and e.action=='start') then
-		print('Imagem iniciada')
+		print('Image Start')
 		readTextFromHtml(URL)
 	end
 
@@ -16,18 +16,18 @@ end
 
 
 function readTextFromHtml(url)
-	print("Acessando:", url) io.flush()
+	print("Accessing:", url) io.flush()
 
 	http.request(url, display)
 end
 
 
---funcao callback
---header: cabecalho da resposta do http
---body: corpo da resposta (neste caso, texto)
+--Function callback
+--header: Response http header
+--body: The response body (in this case, text)
 function display(header, body)
 
-	print("Valor lido:", body) io.flush()
+	print("Value read:", body) io.flush()
 
 	geraEventoDeAtriuicao(PROPRIEDADE_NOME, body)
 
